@@ -20,7 +20,7 @@ class ProductController extends Controller
             'Storage' => 'nullable | numeric',
         ]);
 
-        // Extract product data
+
         $productData = $request->only(['ProductID', 'ProductName', 'Price', 'Color', 'Storage']);
 
         // Create a new product
@@ -50,7 +50,6 @@ class ProductController extends Controller
 
         // Check if the product exists
         if ($product) {
-            // Extract product details data
             $productDetailsData = $request->only(['SerialNumber']);
 
             $productDetailsSerialNumber = $productDetailsData['SerialNumber'] ?? null;

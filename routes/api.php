@@ -17,9 +17,9 @@ use App\Http\Controllers\TransaktionController;
 |
 */
 
-Route::post('/product', [ProductController::class, 'store']);
+Route::post('/create-product', [ProductController::class, 'store']);
 
-Route::post('/product/{productId}', [ProductController::class, 'addDetails']);
+Route::post('/add-new-stock/{productId}', [ProductController::class, 'addDetails']);
 
 
 Route::get('/search', [SearchController::class, 'index']);

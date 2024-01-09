@@ -106,7 +106,7 @@ class TransaktionController extends Controller
 
         // Set the ProductID and other necessary values
         $toInventory->ProductID = $productId;
-        $toInventory->SerialNumberID = $serialNumberId; // It might be null, that's okay
+        $toInventory->SerialNumberID = $serialNumberId;
         $toInventory->LocationID = $toLocation;
 
         // If the toInventory record is new (created), set the quantity directly
@@ -117,7 +117,7 @@ class TransaktionController extends Controller
             $toInventory->increment('Quantity', $quantityMoved);
         }
 
-        // Save the changes
+
         $toInventory->save();
     }
 }

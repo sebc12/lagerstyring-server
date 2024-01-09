@@ -19,11 +19,11 @@ class Transaktion extends Model
         'QuantityMoved',
     ];
 
-    protected $primaryKey = 'TransaktionID'; // Adjust the primary key name
+    protected $primaryKey = 'TransaktionID';
 
-    public $timestamps = false; // Automatically manage created_at and updated_at
+    public $timestamps = false;
 
-    // Define relationships if needed
+
     public function product()
     {
         return $this->belongsTo(Product::class, 'ProductID', 'ProductID');
