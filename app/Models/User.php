@@ -23,6 +23,10 @@ class User extends Authenticatable
         'LocationID'
     ];
 
+    protected $primaryKey = 'userID';
+
+    public $timestamps = false;
+
     public function location()
     {
         return $this->belongsTo(Location::class, 'LocationID', 'LocationID');
