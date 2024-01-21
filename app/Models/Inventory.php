@@ -33,7 +33,7 @@ class Inventory extends Model
         return $this->belongsTo(Product::class, 'ProductID', 'ProductID');
     }
 
-    public function productDetail()
+    public function details()
     {
         return $this->belongsTo(ProductDetails::class, 'SerialNumberID', 'SerialNumberID');
     }

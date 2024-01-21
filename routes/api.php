@@ -4,6 +4,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\RapportController;
 use App\Http\Controllers\SearchController;
 use App\Http\Controllers\TransaktionController;
 /*
@@ -26,7 +27,7 @@ Route::get('/search', [SearchController::class, 'index']);
 
 Route::post('/move-product', [TransaktionController::class, 'moveProducts']);
 
-
+Route::get('/rapport', [RapportController::class, 'index']);
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

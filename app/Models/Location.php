@@ -28,4 +28,9 @@ class Location extends Model
     {
         return $this->hasMany(Transaktion::class,  'LocationID', 'ProductID');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class,  'LocationID', 'LocationID');
+    }
 }
