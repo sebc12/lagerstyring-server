@@ -17,7 +17,7 @@ class SearchController extends Controller
             $name = $request->input('name');
             $serialNumber = $request->input('serialNumber');
 
-            // Query products with details and inventory
+
             $products = Product::with(['details.inventory.location'])
                 ->when($name, function ($query) use ($name) {
                     return $query->where('ProductName', 'like', "%$name%");
@@ -27,7 +27,7 @@ class SearchController extends Controller
                 })
                 ->when($serialNumber, function ($query) use ($serialNumber) {
                     $query->whereHas('details', function ($subquery) use ($serialNumber) {
-                        $subquery->where('SerialNumber', 'like', "%$serialNumber%");
+                        $subquery->where('SerialNumber', $serialNumber);
                     });
                 })
                 ->get();
@@ -43,7 +43,7 @@ class SearchController extends Controller
                 })
                 ->when($serialNumber, function ($query) use ($serialNumber) {
                     $query->whereHas('details', function ($subquery) use ($serialNumber) {
-                        $subquery->where('SerialNumber', 'like', "%$serialNumber%");
+                        $subquery->where('SerialNumber', $serialNumber);
                     });
                 })
                 ->get();

@@ -3,10 +3,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RapportController;
-use App\Http\Controllers\SearchController;
-use App\Http\Controllers\SignupController;
 use App\Http\Controllers\TransaktionController;
 /*
 |--------------------------------------------------------------------------
@@ -31,8 +31,6 @@ Route::post('/move-product', [TransaktionController::class, 'moveProducts']);
 Route::get('/rapport', [RapportController::class, 'index']);
 
 
-Route::post('/signup', [SignupController::class, 'index']);
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/logout', [AuthController::class, 'logout']);

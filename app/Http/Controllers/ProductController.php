@@ -42,41 +42,40 @@ class ProductController extends Controller
 
         $product = Product::find($productId);
 
-        if ($product) {
-            $productDetailsData = $request->only(['SerialNumber']);
-
-            $productDetailsSerialNumber = $productDetailsData['SerialNumber'] ?? null;
-
-            $existingInventoryEntry = Inventory::where('ProductID', $product->ProductID)
-                ->where('SerialNumberID', null)
-                ->where('LocationID', $request->input('LocationID'))
-                ->first();
-
-            if ($existingInventoryEntry) {
-                $existingInventoryEntry->update([
-                    'Quantity' => $existingInventoryEntry->Quantity + $request->input('Quantity'),
-                ]);
-            } else {
-                $productDetails = null;
-                if ($productDetailsSerialNumber !== null) {
-                    $productDetails = new ProductDetails([
-                        'ProductID' => $product->ProductID,
-                        'SerialNumber' => $productDetailsSerialNumber,
-                    ]);
-                    $productDetails->save();
-                }
-
-                Inventory::create([
-                    'ProductID' => $product->ProductID,
-                    'LocationID' => $request->input('LocationID'),
-                    'SerialNumberID' => $productDetails ? $productDetails->SerialNumberID : null,
-                    'Quantity' => $request->input('Quantity'),
-                ]);
-            }
-
-            return response()->json(['message' => 'Product details added successfully'], 201);
-        } else {
+        if (!$product) {
             return response()->json(['message' => 'Product not found'], 404);
         }
+
+        //SerialNumber value or null
+        $serialNumber = $request->input('SerialNumber', null);
+
+
+        //Find existing inventory
+        $existingInventory = Inventory::where('ProductID', $product->ProductID)
+            ->where('SerialNumberID', null)
+            ->where('LocationID', $request->input('LocationID'))
+            ->first();
+
+        if ($existingInventory) {
+            $existingInventory->update([
+                'Quantity' => $existingInventory->Quantity + $request->input('Quantity'),
+            ]);
+        } else {
+            $productDetails = $serialNumber
+                ? ProductDetails::create([
+                    'ProductID' => $product->ProductID,
+                    'SerialNumber' => $serialNumber,
+                ])
+                : null;
+
+            Inventory::create([
+                'ProductID' => $product->ProductID,
+                'LocationID' => $request->input('LocationID'),
+                'SerialNumberID' => optional($productDetails)->SerialNumberID,
+                'Quantity' => $request->input('Quantity'),
+            ]);
+        }
+
+        return response()->json(['message' => 'Successfully added'], 201);
     }
 }
